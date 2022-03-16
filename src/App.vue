@@ -1,30 +1,35 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <n-config-provider :locale="locale" :date-locale="dateLocale">
+    <n-spin size="large" style="background: #000" stroke="#fff" :show="$store.state.isLoading">
+      <div class="spin-content">
+        <router-view/>
+      </div>
+    </n-spin>
+  </n-config-provider>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { LANGUAGE_OBJ } from '@/lib/langLib'
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  name: 'App',
+  data () {
+    return {
+      language: this.$store.state.language,
+      locale: {},
+      dateLocale: {}
     }
+  },
+  created () {
+    this.locale = this.language
+    this.dateLocale = LANGUAGE_OBJ[this.language].date
   }
+}
+</script>
+
+<style scoped>
+.spin-content {
+  background-color: #fff;
+  height: 100vh;
 }
 </style>
